@@ -3466,6 +3466,17 @@
      * @return {DocumentFragment}
      */
 
+
+    // Escapes HTML special characters in a string
+    function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+    }
+
     function stringToFragment(templateString, raw) {
         // try a cache hit first
         var cacheKey = raw ? templateString : templateString.trim();
@@ -3527,7 +3538,7 @@
         }
         // script template
         if (node.tagName === 'SCRIPT') {
-            return stringToFragment(node.textContent);
+            return stringToFragment(escapeHtml(node.textContent));
         }
         // normal node, clone it to avoid mutating the original
         var clonedNode = cloneNode(node);
